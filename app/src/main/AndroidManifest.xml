@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.melgarejo.youaretooloud">
 
-    <application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application android:name=".AppApplication">
         <uses-library android:name="com.google.android.things" />
 
         <activity android:name=".HomeActivity">

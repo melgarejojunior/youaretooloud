@@ -2,31 +2,37 @@ package com.example.melgarejo.youaretooloud
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
-/**
- * Skeleton of an Android Things activity.
- *
- * Android Things peripheral APIs are accessible through the class
- * PeripheralManagerService. For example, the snippet below will open a GPIO pin and
- * set it to HIGH:
- *
- * <pre>{@code
- * val service = PeripheralManagerService()
- * val mLedGpio = service.openGpio("BCM6")
- * mLedGpio.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW)
- * mLedGpio.value = true
- * }</pre>
- * <p>
- * For more complex peripherals, look for an existing user-space driver, or implement one if none
- * is available.
- *
- * @see <a href="https://github.com/androidthings/contrib-drivers#readme">https://github.com/androidthings/contrib-drivers#readme</a>
- *
- */
 class HomeActivity : Activity() {
+
+    private var mListener: ValueEventListener
+    private val TAG = "HomeActivity"
+
+    init {
+        mListener = object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, error.message)
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val value = snapshot.child("sound")
+                Log.d(TAG, value.toString())
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        val database = FirebaseDatabase.getInstance()
+        val databaseReference = database.getReference("android_things")
+        databaseReference.addValueEventListener(mListener)
+
     }
 }
