@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "224629242724",
+    "firebase_url": "https://ur2load-22812.firebaseio.com",
+    "project_id": "ur2load-22812",
+    "storage_bucket": "ur2load-22812.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224629242724:android:04858fadbd8c114d",
+        "android_client_info": {
+          "package_name": "com.example.melgarejo.youaretooloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224629242724-u4io50gs2cmdsn8uqkpub2vdtrsliemn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.melgarejo.youaretooloud",
+            "certificate_hash": "e388911611d8c66718e2dcb6a41692294be731d8"
+          }
+        },
+        {
+          "client_id": "224629242724-236ctjndej50iv0jc6i9t9da0ld6jkp6.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "224629242724-236ctjndej50iv0jc6i9t9da0ld6jkp6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd8VvzdLA4AI8yNoTJne5e-4UqzxhYJrQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224629242724-236ctjndej50iv0jc6i9t9da0ld6jkp6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
