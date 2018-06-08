@@ -1,7 +1,12 @@
 package com.example.melgarejo.youaretooloud
 
+import android.annotation.TargetApi
 import android.app.Activity
+import android.content.Context
 import android.media.MediaPlayer
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -48,9 +53,14 @@ class HomeActivity : Activity(), MediaPlayer.OnPreparedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        Log.e(TAG, "ANTES DE ABRIR O MEDIA PLAYER")
         mediaPlayer = MediaPlayer.create(this, R.raw.siren)
         mediaPlayer.isLooping = true
         mediaPlayer.setOnPreparedListener(this)
+        while(!isConnectedToWifi(this)) {
+            Log.e(TAG, "nao está conectado")
+        }
+        Log.e(TAG, "ANTES DE ABRIR O FIREBASE")
         database = FirebaseDatabase.getInstance()
         databaseReference = database.getReference("android_things")
         databaseReference.addValueEventListener(mListener)
@@ -67,4 +77,27 @@ class HomeActivity : Activity(), MediaPlayer.OnPreparedListener {
         startTimer(mp)
     }
 
+    fun isConnectedToWifi(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return if (Build.VERSION.SDK_INT > 23) {
+            isConnectedToWifiAfterMarshmallow(connectivityManager)
+        } else {
+            isConnectedToWifiBeforeMarshmallow(connectivityManager)
+        }
+    }
+
+    private fun isConnectedToWifiBeforeMarshmallow(connectivityManager: ConnectivityManager): Boolean {
+        val networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        return networkInfo != null && networkInfo.isConnected
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private fun isConnectedToWifiAfterMarshmallow(connectivityManager: ConnectivityManager): Boolean {
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && isWifiNetwork(networkInfo) && networkInfo.isConnected
+    }
+
+    private fun isWifiNetwork(networkInfo: NetworkInfo): Boolean {
+        return networkInfo.type == ConnectivityManager.TYPE_WIFI || networkInfo.type == ConnectivityManager.TYPE_WIMAX
+    }
 }
