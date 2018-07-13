@@ -3,6 +3,7 @@ package com.example.melgarejo.youaretooloud
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -35,7 +36,6 @@ class HomeActivity : Activity(), MediaPlayer.OnPreparedListener {
     private lateinit var buttonInputDriver: ButtonInputDriver
 
     private var mListener: ValueEventListener
-
     private var delayInMilliSeconds = 1300L
     private var initialized = false
 
@@ -124,10 +124,19 @@ class HomeActivity : Activity(), MediaPlayer.OnPreparedListener {
 
     private fun createMediaPlayerInstance() {
         setLedValue(ledRedGpio, false)
-        mediaPlayer = MediaPlayer.create(this, R.raw.bell)
+        mediaPlayer = MediaPlayer.create(this, R.raw.siren2)
+        maximizeVolume()
         mediaPlayer.isLooping = true
         mediaPlayer.setOnPreparedListener(this)
         setLedValue(ledRedGpio, true)
+    }
+
+    private fun maximizeVolume() {
+        val audio = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val maxVolume = audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        val percent = 1f
+        val maximized = (maxVolume * percent).toInt()
+        audio.setStreamVolume(AudioManager.STREAM_MUSIC, maximized, 0)
     }
 
     private fun playSong(mp: MediaPlayer?) {
